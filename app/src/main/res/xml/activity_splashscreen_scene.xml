@@ -6,10 +6,9 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1500">
-       <KeyFrameSet>
-       </KeyFrameSet>
-        <OnSwipe motion:maxAcceleration="2.91" />
+        motion:duration="1000"
+        motion:autoTransition="animateToEnd">
+
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
@@ -30,7 +29,13 @@
             android:layout_height="wrap_content"
             motion:layout_editor_absoluteY="316dp"
             motion:layout_editor_absoluteX="132dp"
-            android:alpha="0" />
+            android:alpha="0"
+            android:visibility="invisible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_bias="0.47" />
         <Constraint
             android:id="@+id/slogan"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +60,9 @@
             android:visibility="visible" />
     </ConstraintSet>
 
+
+
+
     <ConstraintSet android:id="@+id/end">
         <Constraint
             android:id="@+id/backgroundLayout"
@@ -65,9 +73,9 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:visibility="invisible"
-            android:scaleX="1"
+            android:scaleX="0"
             android:alpha="0"
-            android:scaleY="1" />
+            android:scaleY="0" />
         <Constraint
             android:id="@+id/appname_white"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -94,9 +102,13 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            motion:layout_editor_absoluteY="316dp"
-            motion:layout_editor_absoluteX="132dp"
             android:alpha="1"
-            android:visibility="visible" />
+            android:visibility="visible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_bias="0.47" />
     </ConstraintSet>
+
 </MotionScene>
