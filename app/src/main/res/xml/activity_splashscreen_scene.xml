@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000"
+        motion:duration="2000"
         motion:autoTransition="animateToEnd">
 
     </Transition>
@@ -21,8 +21,9 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:visibility="visible"
-            android:scaleX="10"
-            android:scaleY="10" />
+            android:scaleX="20"
+            android:scaleY="20"
+            android:alpha="1" />
         <Constraint
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
@@ -35,7 +36,9 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintVertical_bias="0.47" />
+            motion:layout_constraintVertical_bias="0.47"
+            android:scaleX="0.9"
+            android:scaleY="0.9" />
         <Constraint
             android:id="@+id/slogan"
             motion:layout_constraintEnd_toEndOf="parent"

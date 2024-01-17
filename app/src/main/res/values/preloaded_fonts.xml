@@ -3,7 +3,6 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/inter_thin</item>
         <item>@font/space_grotesk_bold</item>
-        <item>@font/space_grotesk_medium</item>
         <item>@font/space_grotesk_semibold</item>
     </array>
 </resources>
