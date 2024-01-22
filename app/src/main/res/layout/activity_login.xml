@@ -8,10 +8,10 @@
 
     <EditText
         android:id="@+id/editTextText"
+        android:hint="Username"
         android:layout_width="292dp"
         android:layout_height="39dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="101dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/baseline_person"
@@ -27,6 +27,7 @@
 
     <EditText
         android:id="@+id/editTextTextPassword"
+        android:hint="Password"
         android:layout_width="292dp"
         android:layout_height="39dp"
         android:layout_marginStart="101dp"
@@ -47,10 +48,11 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="300dp"
         android:layout_marginEnd="251dp"
+        android:layout_marginBottom="45dp"
         android:text="Login"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -88,15 +90,17 @@
         app:lineHeight="35dp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:text="Create an account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        app:layout_constraintVertical_bias="0.309" />
 
     <Switch
         android:id="@+id/remember_me"
