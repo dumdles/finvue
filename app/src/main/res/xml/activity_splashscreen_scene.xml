@@ -60,7 +60,9 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:alpha="1"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:scaleX="0.9"
+            android:scaleY="0.9" />
     </ConstraintSet>
 
 
