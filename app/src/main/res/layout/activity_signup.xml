@@ -94,6 +94,7 @@
     </LinearLayout>
 
     <LinearLayout
+
         android:id="@+id/btnSignUpWithGoogle"
         android:layout_width="172dp"
         android:layout_height="40dp"
