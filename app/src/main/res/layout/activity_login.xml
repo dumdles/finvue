@@ -7,26 +7,26 @@
     tools:context=".LoginActivity">
 
     <EditText
-        android:id="@+id/editTextText"
-        android:hint="Username"
+        android:id="@+id/editTextLoginEmail"
+        android:hint="Email"
         android:layout_width="292dp"
         android:layout_height="39dp"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="101dp"
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/baseline_person"
+        android:drawableStart="@drawable/baseline_alternate_email"
         android:drawablePadding="10dp"
         android:ems="10"
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLoginPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextLoginPassword"
         android:hint="Password"
         android:layout_width="292dp"
         android:layout_height="39dp"
@@ -43,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextLoginEmail" />
 
     <TextView
         android:id="@+id/textView"
@@ -56,15 +56,16 @@
         android:text="Login"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLoginEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/btnLogin"
         android:layout_width="172dp"
         android:layout_height="40dp"
+        android:layout_marginBottom="132dp"
         android:background="@drawable/custom_button"
         android:radius="30dp"
         android:text="LOGIN"
@@ -73,6 +74,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/remember_me" />
 
@@ -99,21 +101,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
-        app:layout_constraintVertical_bias="0.309" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+        app:layout_constraintVertical_bias="0.123" />
 
-    <Switch
-        android:id="@+id/remember_me"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="213dp"
-        android:text="Remember me"
+    <LinearLayout
+        android:id="@+id/btnSignInWithGoogle"
+        android:layout_width="172dp"
+        android:layout_height="40dp"
+        android:background="@drawable/google_signup"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSignup"
+        app:layout_constraintVertical_bias="0.423">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_google_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign in with Google"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
