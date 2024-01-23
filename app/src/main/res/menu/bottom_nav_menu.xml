@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homepage"
+        android:title="Home"
+        android:icon="@drawable/baseline_home"/>
+    <item
+        android:id="@+id/stats"
+        android:title="Statistics"
+        android:icon="@drawable/baseline_statistics"/>
+    <item
+        android:id="@+id/add"
+        android:title="Add"
+        android:icon="@drawable/baseline_add"/>
+    <item
+        android:id="@+id/spendings"
+        android:title="Spendings"
+        android:icon="@drawable/baseline_history"/>
+    <item
+        android:id="@+id/news"
+        android:title="News"
+        android:icon="@drawable/baseline_article"/>
+</menu>
