@@ -92,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Update UI or navigate to the next activity
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
                             // updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -149,6 +151,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Update UI or navigate to the next activity
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
                             // reload();
                         } else {
                             // If sign in fails, display a message to the user.
