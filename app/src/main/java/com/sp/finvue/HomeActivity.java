@@ -18,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     private SpendingFragment spendingFragment;
     private NewsFragment newsFragment;
     private FragmentManager fragmentManager = getSupportFragmentManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
