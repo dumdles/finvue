@@ -1,5 +1,6 @@
 package com.sp.finvue;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,12 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
                 .error(R.drawable.baseline_image_not_supported)
                 .placeholder(R.drawable.baseline_image_not_supported)
                 .into(holder.imageView);
+
+        holder.itemView.setOnClickListener((v -> {
+            Intent intent = new Intent(v.getContext(), NewsActivityFull.class);
+            intent.putExtra("url", article.getUrl());
+            v.getContext().startActivity(intent);
+        }));
     }
 
     void updateData(List<Article> data) {
