@@ -151,7 +151,7 @@
         app:layout_constraintVertical_bias="0.428" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/welcomeuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="59dp"
