@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,8 +89,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success
                             Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(LoginActivity.this, "Logged in",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "Logged in",
+//                                    Toast.LENGTH_SHORT).show();
+                            showSnackbar("Logged in");
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Update UI or navigate to the next activity
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
@@ -98,8 +100,10 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+                            showSnackbar("Authentication failed.");
+
                             // updateUI(null);
                         }
                     }
@@ -133,7 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "Google Sign-in failed with error code: " + e.getStatusCode(), e);
 
                 // Google Sign-in failed, update UI appropriately
-                Toast.makeText(this, "Google Sign-in failed", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Google Sign-in failed", Toast.LENGTH_SHORT).show();
+                showSnackbar("Google Sign-in failed");
             }
         }
     }
@@ -147,8 +152,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign-in success
-                            Toast.makeText(LoginActivity.this, "Logged in with Google",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "Logged in with Google",
+//                                    Toast.LENGTH_SHORT).show();
+                            showSnackbar("Logged in with Google");
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Update UI or navigate to the next activity
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
@@ -161,6 +167,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
     }
 
 }

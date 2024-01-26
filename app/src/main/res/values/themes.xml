@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Finvue" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Finvue" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">?attr/colorSecondary</item>
         <item name="colorPrimaryVariant">#A3BAC3</item>
