@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Finvue"
         tools:targetApi="31">
         <activity
+            android:name=".SplashScreen"
+            android:exported="false" />
+        <activity
             android:name=".profile_page"
             android:exported="false" />
         <activity
@@ -27,7 +30,7 @@
             android:name=".SignupActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".EditProfile"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

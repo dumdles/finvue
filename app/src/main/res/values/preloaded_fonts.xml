@@ -4,5 +4,10 @@
         <item>@font/inter_thin</item>
         <item>@font/space_grotesk_bold</item>
         <item>@font/space_grotesk_semibold</item>
+        <item>@font/product_sans_regular</item>
+        <item>@font/product_sans_italic</item>
+        <item>@font/product_sans_bold_italic</item>
+        <item>@font/product_sans_bold</item>
+
     </array>
 </resources>
