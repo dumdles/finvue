@@ -18,7 +18,7 @@
             android:name=".SplashScreen"
             android:exported="false" />
         <activity
-            android:name=".profile_page"
+            android:name=".EditProfile"
             android:exported="false" />
         <activity
             android:name=".NewsActivityFull"
@@ -30,7 +30,7 @@
             android:name=".SignupActivity"
             android:exported="true" />
         <activity
-            android:name=".EditProfile"
+            android:name=".ProfilePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
