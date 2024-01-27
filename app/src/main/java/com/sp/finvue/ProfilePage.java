@@ -88,15 +88,17 @@ public class ProfilePage extends AppCompatActivity {
                 displayNameTextView.setText(displayName);
                 emailTextView.setText(email);
 
-                // Format the joinDate using SimpleDateFormat
-                try {
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                    Date date = inputFormat.parse(joinDate);
+                if (joinDate != null) {
+                    // Format the joinDate using SimpleDateFormat
+                    try {
+                        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                        Date date = inputFormat.parse(joinDate);
 
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
-                    joinDateTextView.setText("Joined " + outputFormat.format(date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                        SimpleDateFormat outputFormat = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
+                        joinDateTextView.setText("Joined " + outputFormat.format(date));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             app:navigationIcon="@drawable/baseline_arrow_back"
+            app:navigationIconTint="@color/white"
             app:popupTheme="@style/CardView"
             app:title="Edit Profile"
             app:titleTextColor="@android:color/white" />
@@ -31,9 +32,10 @@
             android:hint="Name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:paddingStart="50dp"
+                android:id="@+id/editTextDisplayName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,12 +45,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:hint="Date of Birth"
+            android:hint="New Password"
             android:clickable="true"
-            app:startIconDrawable="@drawable/baseline_calendar_month">
+            app:startIconDrawable="@drawable/baseline_lock">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/datePickerFieldEditText"
+                android:id="@+id/editTextNewPassword"
                 android:paddingStart="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -56,12 +58,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:layout_width="80dp"
+            android:id="@+id/btnSaveChanges"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Save"
-            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:layout_marginTop="200dp"/>
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/product_sans_regular"
+            style="?attr/materialButtonStyle"
+            android:text="Save Changes"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -217,7 +218,13 @@ public class SignupActivity extends AppCompatActivity {
                             // Sign-in success
                             Log.d(TAG, "createUserWithEmail.success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            reload();
+
+                            // Update or create user document in Firestore
+                            updateUserDocument(user);
+
+                            Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
+                            startActivity(intent);
+
                         } else {
                             Toast.makeText(SignupActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -226,23 +233,43 @@ public class SignupActivity extends AppCompatActivity {
                 });
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign-in fails, display a message to the user
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            updateUI(null);
-                        }
+    private void updateUserDocument(FirebaseUser user) {
+        if (user != null) {
+            String userId = user.getUid();
+            String userEmail = user.getEmail();
+            String userName = user.getDisplayName();
+
+            // Check if the user document already exists
+            DocumentReference userRef = fStore.collection("users").document(userId);
+
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Update the existing document
+                        userRef.update("email", userEmail);
+                        userRef.update("name", userName);
+                    } else {
+                        // Create a new user document
+                        Map<String, Object> newUser = new HashMap<>();
+                        newUser.put("email", userEmail);
+                        newUser.put("name", userName);
+                        newUser.put("joinDate", getCurrentDate());
+
+                        userRef.set(newUser).addOnSuccessListener(unused -> {
+                            Log.d(TAG, "New user document created for " + userId);
+                        });
                     }
-                });
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            });
+        }
+    }
+
+    private String getCurrentDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        return dateFormat.format(new Date());
     }
 }
+

@@ -56,14 +56,14 @@
 
             <Button
                 android:id="@+id/edit_profile_btn"
-                style="?attr/materialButtonOutlinedStyle"
+                style="?attr/materialButtonStyle"
                 android:layout_width="300dp"
                 android:layout_height="41dp"
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/product_sans_regular"
                 android:text="Edit Profile"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -166,7 +166,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="finvue is a financial literacy application built to help Singaporean teenagers track the spending while also learning the importance of saving money. \n\nMade by Dylan and Tasneem for ET0529"
+                    android:text="finvue is a financial literacy application built to help Singaporean teenagers track their spending while also learning the importance of saving money. \n\nMade by Dylan and Tasneem for ET0529: MAD"
                     android:textColor="@color/black"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="15dp"
