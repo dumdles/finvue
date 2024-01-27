@@ -30,7 +30,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -126,11 +129,19 @@ public class SignupActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(SignupActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "createUserWithEmail:success");
+
+                            // Get user ID
                             userID = mAuth.getCurrentUser().getUid();
+
+                            // Get current date
+                            String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+
+                            // Insert data into Firestore database
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             Map<String, Object> user = new HashMap<>();
                             user.put("name", name);
                             user.put("email", email);
+                            user.put("joinDate", currentDate);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
