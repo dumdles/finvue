@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/login_button2"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextUsername"
+            android:id="@+id/editTextName"
             android:layout_width="292dp"
             android:layout_height="39dp"
             android:layout_marginStart="16dp"
@@ -122,7 +122,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/login_button2"
+        android:id="@+id/sign_up_btn"
         android:layout_width="172dp"
         android:layout_height="40dp"
         android:layout_marginBottom="152dp"
@@ -147,7 +147,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button2"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_btn"
         app:layout_constraintVertical_bias="0.428" />
 
     <TextView

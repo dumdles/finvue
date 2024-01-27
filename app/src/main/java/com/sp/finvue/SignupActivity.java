@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.view.View;
@@ -19,12 +20,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SignupActivity extends AppCompatActivity {
@@ -32,6 +39,12 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
     private static final int RC_SIGN_IN = 9001; // What is this
     private FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
+    String userID;
+    String name;
+    String email;
+    String password;
+    String cfmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +53,11 @@ public class SignupActivity extends AppCompatActivity {
 
         // Initialise Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         TextView textViewLogin = findViewById(R.id.textViewLogin);
         LinearLayout btnGoogleSignUp = findViewById(R.id.btnSignUpWithGoogle);
-
-        EditText editTextEmail = findViewById(R.id.editTextEmail);
-        EditText editTextPassword = findViewById(R.id.editTextPassword);
-        Button btnSignUp = findViewById(R.id.login_button2);
+        Button btnSignUp = findViewById(R.id.sign_up_btn);
 
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +79,30 @@ public class SignupActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get email and password from EditText fields
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
 
-                // Call createAccount method with email and password
-                createAccount(email, password);
+                EditText editTextName = findViewById(R.id.editTextName);
+                EditText editTextEmail = findViewById(R.id.editTextEmail);
+                EditText editTextPassword = findViewById(R.id.editTextPassword);
+                EditText editTextCfmPassword = findViewById(R.id.editTextConfirmPassword);
+
+                // Get email and password from EditText fields
+                name = editTextName.getText().toString();
+                email = editTextEmail.getText().toString();
+                password = editTextPassword.getText().toString();
+                cfmPassword = editTextCfmPassword.getText().toString();
+
+                if (TextUtils.isEmpty(name)) {
+                    editTextName.setError("Name is required");
+                } else if (TextUtils.isEmpty(email)) {
+                    editTextEmail.setError("Email is required");
+                } else if (TextUtils.isEmpty(password)) {
+                    editTextPassword.setError("Password is required");
+                } else if (!password.equals(cfmPassword)) {
+                    editTextCfmPassword.setError("Passwords do not match");
+                } else {
+                    // Call createAccount method with email and password
+                    createAccount(email, password);
+                }
             }
         });
     }
@@ -97,7 +126,17 @@ public class SignupActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(SignupActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            userID = mAuth.getCurrentUser().getUid();
+                            DocumentReference documentReference = fStore.collection("users").document(userID);
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("name", name);
+                            user.put("email", email);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d(TAG, "onSuccess: user profile created for " + userID);
+                                }
+                            });
                             // updateUI(user);
                         } else {
                             // If Sign in fails, display a message to the user
@@ -157,27 +196,27 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-        private void firebaseAuthWithGoogle(GoogleSignInAccount acct){
-            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-            mAuth.signInWithCredential(credential)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign-in success
-                                Log.d(TAG, "createUserWithEmail.success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                reload();
-                            } else {
-                                Toast.makeText(SignupActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign-in success
+                            Log.d(TAG, "createUserWithEmail.success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            reload();
+                        } else {
+                            Toast.makeText(SignupActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
-                    });
-        }
+                    }
+                });
+    }
 
     private void firebaseAuthWithGoogle(String idToken) {
-            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
