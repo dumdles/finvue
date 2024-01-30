@@ -16,6 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,6 +33,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -173,4 +183,22 @@ public class LoginActivity extends AppCompatActivity {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
     }
 
+
+    public static void EmailCleanup(String[] args) {
+        String email = "user@example.com";
+
+        // Remove '@' and '.'
+        String cleanedEmail = removeSpecialCharacters(email);
+
+        // Display the cleaned email
+        System.out.println("Original Email: " + email);
+        System.out.println("Cleaned Email: " + cleanedEmail);
+    }
+
+    private static String removeSpecialCharacters(String email) {
+        // Use replaceAll with regular expressions to remove '@' and '.'
+        return email.replaceAll("[@.]", "");
+    }
 }
+
+
