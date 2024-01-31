@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginVertical="10dp"
-            android:src="@drawable/rounded_image_view"
+            android:background="@drawable/rounded_image_view"
             android:scaleType="centerCrop" />
 
         <LinearLayout
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/product_sans_bold"
                 android:maxLines="3"
                 android:textColor="@color/black"
                 android:textSize="16sp"

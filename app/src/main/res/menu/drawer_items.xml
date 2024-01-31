@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group1" >
+
+        <item
+            android:id="@+id/navHome"
+            android:icon="@drawable/baseline_home"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/navStatistics"
+            android:icon="@drawable/baseline_statistics"
+            android:title="Statistics" />
+
+        <item
+            android:id="@+id/navSpendings"
+            android:icon="@drawable/baseline_history"
+            android:title="Spendings" />
+
+        <item
+            android:id="@+id/navArticles"
+            android:icon="@drawable/baseline_article"
+            android:title="Articles" />
+
+    </group>
+
+    <group
+        android:id="@+id/group2">
+
+        <item
+            android:id="@+id/navSettings"
+            android:icon="@drawable/baseline_settings"
+            android:title="Settings" />
+
+    </group>
+</menu>

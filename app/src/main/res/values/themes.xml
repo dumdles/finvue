@@ -7,10 +7,10 @@
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#01A7C2</item>
-        <item name="colorSecondaryVariant">#007090</item>
+        <item name="colorSecondaryVariant">#FF025D6C</item>
         <item name="colorOnSecondary">#EAEBED</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/primary_grey</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

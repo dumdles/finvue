@@ -4,21 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NewsFragment"
-    android:background="#1b1b1b">
+    tools:context=".NewsFragment">
 
     <TextView
         android:id="@+id/news_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/product_sans_bold"
         android:paddingLeft="30dp"
         android:gravity="left"
         android:layout_marginVertical="10dp"
-        android:paddingTop="20dp"
+        android:paddingTop="0dp"
         android:lineHeight="35dp"
-        android:textColor="#d9d9d9"
+        android:textColor="#000"
         android:text="Featured \nArticles"
         android:textSize="30sp" />
 
