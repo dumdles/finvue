@@ -201,10 +201,10 @@ public class SignupActivity extends AppCompatActivity {
 //                });
 //    }
 
-    //    String email, String id, String tname, String datetime, String type
-//    private void createUser() {
-////        Map<String, String> params = new HashMap<String, String>();
-////        RequestQueue queue = Volley.newRequestQueue(this);
+//        String email, String id, String tname, String datetime, String type
+//    private void createUser() {TRANSA
+//        Map<String, String> params = new HashMap<String, String>();
+//        RequestQueue queue = Volley.newRequestQueue(this);
 //        String createTableQuery = "CREATE TABLE IF NOT EXISTS dbname (id INT PRIMARY KEY, tname TEXT, datetime TEXT, type TEXT)";
 //        String url = UserVolleyHelper.region + "/v2/cql/execute";
 //

@@ -184,21 +184,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public static void EmailCleanup(String[] args) {
-        String email = "user@example.com";
-
-        // Remove '@' and '.'
-        String cleanedEmail = removeSpecialCharacters(email);
-
-        // Display the cleaned email
-        System.out.println("Original Email: " + email);
-        System.out.println("Cleaned Email: " + cleanedEmail);
-    }
-
-    private static String removeSpecialCharacters(String email) {
-        // Use replaceAll with regular expressions to remove '@' and '.'
-        return email.replaceAll("[@.]", "");
-    }
 }
 
 
