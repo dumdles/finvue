@@ -9,6 +9,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.security.MessageDigestSpi;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class NewTransaction extends AppCompatActivity {
 
@@ -46,6 +55,28 @@ public class NewTransaction extends AppCompatActivity {
             public void onClick(View v) {
                 // Close the activity and return to the previous fragment
                 finish();
+            }
+        });
+
+        // Date picker functionality
+        TextInputEditText datePicker = findViewById(R.id.transactionDate);
+
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialDatePicker<Long>materialDatePicker =
+                        MaterialDatePicker.Builder.datePicker()
+                                .setTitleText("Select transaction date")
+                                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                                .build();
+                materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                    @Override
+                    public void onPositiveButtonClick(Long selection) {
+                        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(selection));
+                        datePicker.setText(MessageFormat.format("{0}", date));
+                    }
+                });
+                materialDatePicker.show(getSupportFragmentManager(), "tag");
             }
         });
 

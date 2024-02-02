@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="330dp"
@@ -105,16 +105,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:hint="Category">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/transactionCategory"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:simpleItems="@array/transactionCategories" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,16 +135,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:hint="Mode of Payment">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/transactionMode"
+            <AutoCompleteTextView
+                android:id="@+id/paymentMode"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:simpleItems="@array/paymentMethods" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,14 +172,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:hint="Date">
+            android:hint="Remarks">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/transactionRemarks"
@@ -191,7 +195,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:text="Add picture"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            app:icon="@drawable/baseline_add"
+            app:iconTint="#fff"/>
 
     </LinearLayout>
 

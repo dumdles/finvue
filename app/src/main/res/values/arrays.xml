@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="transactionCategories">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Entertainment</item>
+        <item>Transfer to Friend</item>
+        <item>Other</item>
+    </array>
+
+    <array name="paymentMethods">
+        <item>Cash</item>
+        <item>Credit/Debit Card</item>
+        <item>PayNow/PayLah!</item>
+    </array>
+</resources>
