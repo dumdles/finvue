@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1b1b1b"
+    android:background="#F9F9F9"
     tools:context=".HomepageFragment">
 
     <LinearLayout
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_medium"
                 android:text="Welcome, Tasneem"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -42,7 +42,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="175dp"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            android:backgroundTint="#77FFE4BA"
+            android:backgroundTintMode="src_atop">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,7 +107,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="3dp"
                     android:text="TextView"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -125,7 +127,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/dm_sans_medium"
                 android:text="My Dashboard"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -139,14 +141,14 @@
                 android:paddingRight="10dp"
                 android:text="VIEW MORE"
                 android:textAlignment="textEnd"
-                android:textColor="#9FFFFFFF"
+                android:textColor="#101010"
                 android:textSize="12sp" />
 
         </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
