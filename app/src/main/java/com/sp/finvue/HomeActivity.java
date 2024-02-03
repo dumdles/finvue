@@ -146,6 +146,51 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            // If there are fragments in the back stack, pop the top one
+            fragmentManager.popBackStack();
+        } else {
+            // If the back stack is empty, perform the default back action
+            super.onBackPressed();
+        }
+        updateNavigationBar(); // Call a method to update the navigation bar based on the current fragment
+    }
+
+    private void updateNavigationBar() {
+        // Check the current fragment and update the navbar
+        int currentItem = R.id.homepage;
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            // Get the current fragment from the top of the back stack
+            String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+            if (fragmentTag != null) {
+                switch (fragmentTag) {
+                    case "homepage":
+                        currentItem = R.id.homepage;
+                        break;
+                    case "stats":
+                        currentItem = R.id.stats;
+                        break;
+                    case "add":
+                        currentItem = R.id.add;
+                        break;
+                    case "spendings":
+                        currentItem = R.id.spendings;
+                        break;
+                    case "news":
+                        currentItem = R.id.news;
+                        break;
+
+                }
+            }
+        }
+
+        // Update the selected item in the navigation bar
+        navView.setSelectedItemId(currentItem);
+    }
+
+
     private void fetchUserData() {
         View headerView = navigationView.getHeaderView(0); // Get the header view
         CircleImageView userImage = headerView.findViewById(R.id.user_image); // Find the ImageView in the header
