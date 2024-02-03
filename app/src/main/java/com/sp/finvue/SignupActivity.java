@@ -154,6 +154,8 @@ public class SignupActivity extends AppCompatActivity {
                             user.put("name", name);
                             user.put("email", email);
                             user.put("joinDate", currentDate);
+                            user.put("useruuid", UserUUID);
+
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

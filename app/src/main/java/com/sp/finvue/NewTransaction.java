@@ -23,6 +23,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
 
@@ -33,6 +37,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public class NewTransaction extends AppCompatActivity {
+
+    private FirebaseFirestore fStore;
+    private FirebaseAuth mAuth;
+    private String userID, userUUID;
+
 
     private EditText transaction_Amount;
     private TextInputEditText transaction_Name;
@@ -48,6 +57,9 @@ public class NewTransaction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_transaction);
+
+        mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         transaction_Amount = findViewById(R.id.transactionAmount);
         transaction_Name = findViewById(R.id.transactionName);
@@ -81,6 +93,14 @@ public class NewTransaction extends AppCompatActivity {
                 }
             }
         });
+
+        // Get the current user
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            userID = user.getUid();
+            // Fetch user data from Firestore
+            fetchUserUUIDData();
+        }
 
         // Close button functionality
         ImageButton closeButton = findViewById(R.id.closeButton);
@@ -118,8 +138,17 @@ public class NewTransaction extends AppCompatActivity {
                 finish();
             }
         });
-
     }
+
+    private void fetchUserUUIDData() {
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        documentReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                userUUID = task.getResult().getString("useruuid");
+            }
+        });
+    }
+
     // insert new transaction
     private void insertTransactionVolley(String transactionUUID, String category, String cost, String date, String location, String paymentmethod, String name, String remarks) {
         // Create a JSON object from the parameters
@@ -138,6 +167,7 @@ public class NewTransaction extends AppCompatActivity {
         params.put("name", name);
         params.put("remarks", remarks);
         params.put("submission_time", formatted_time);
+        params.put("user_id", userUUID);
 
         JSONObject postdata = new JSONObject(params);
         RequestQueue queue = Volley.newRequestQueue(this);
