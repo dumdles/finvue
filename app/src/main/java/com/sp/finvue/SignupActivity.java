@@ -14,6 +14,12 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,11 +37,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class SignupActivity extends AppCompatActivity {
@@ -136,6 +145,8 @@ public class SignupActivity extends AppCompatActivity {
 
                             // Get current date
                             String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                            String UserUUID = UUID.randomUUID().toString();
+                            insertUserVolley(UserUUID, email);
 
                             // Insert data into Firestore database
                             DocumentReference documentReference = fStore.collection("users").document(userID);
@@ -143,12 +154,19 @@ public class SignupActivity extends AppCompatActivity {
                             user.put("name", name);
                             user.put("email", email);
                             user.put("joinDate", currentDate);
+                            user.put("useruuid", UserUUID);
+
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Log.d(TAG, "onSuccess: user profile created for " + userID);
                                 }
                             });
+
+                            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+
                             // updateUI(user);
                         } else {
                             // If Sign in fails, display a message to the user
@@ -242,6 +260,9 @@ public class SignupActivity extends AppCompatActivity {
             // Check if the user document already exists
             DocumentReference userRef = fStore.collection("users").document(userId);
 
+            String UserUUID = UUID.randomUUID().toString();
+            insertUserVolley(UserUUID, userEmail);
+
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
@@ -255,6 +276,7 @@ public class SignupActivity extends AppCompatActivity {
                         newUser.put("email", userEmail);
                         newUser.put("name", userName);
                         newUser.put("joinDate", getCurrentDate());
+                        newUser.put("useruuid", UserUUID);
 
                         userRef.set(newUser).addOnSuccessListener(unused -> {
                             Log.d(TAG, "New user document created for " + userId);
@@ -270,6 +292,42 @@ public class SignupActivity extends AppCompatActivity {
     private String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return dateFormat.format(new Date());
+    }
+
+    private void insertUserVolley(String UserUUID, String email) {
+        // Create a JSON object from the parameters
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", UserUUID);
+        params.put("email", email);
+
+        JSONObject postdata = new JSONObject(params);
+        Log.d("postdata", String.valueOf(postdata));
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String userurl = TransactionVolleyHelper.user_url;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, userurl, postdata,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        Log.d("POST Request", "Success: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        Log.e("POST Request", "Error: " + error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return TransactionVolleyHelper.getHeader();
+            }
+        };
+        // add JsonObjectRequest to the RequestQueue
+        queue.add(jsonObjectRequest);
     }
 }
 

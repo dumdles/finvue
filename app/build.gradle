@@ -58,8 +58,7 @@ dependencies {
     // Dependency for Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    // Dependency for Horizontal Calendar View
-    implementation 'com.github.gastricspark:scrolldatepicker:0.0.1'
+    // Volley for AstraDB
+    implementation 'com.android.volley:volley:1.2.1'
 
 }
-
