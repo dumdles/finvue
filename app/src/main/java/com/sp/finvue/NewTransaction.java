@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,12 +52,11 @@ public class NewTransaction extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String userID, userUUID;
 
-
     private EditText transaction_Amount;
     private TextInputEditText transaction_Name;
-    private TextInputEditText transaction_Category;
+    private AutoCompleteTextView transaction_Category;
     private TextInputEditText transaction_Location;
-    private TextInputEditText transaction_Mode;
+    private AutoCompleteTextView transaction_Mode;
     private TextInputEditText transaction_Date;
     private TextInputEditText transaction_Remarks;
 
@@ -146,7 +146,7 @@ public class NewTransaction extends AppCompatActivity {
             }
         });
 
-    }
+
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

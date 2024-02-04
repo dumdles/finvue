@@ -144,7 +144,7 @@
             android:hint="Mode of Payment">
 
             <AutoCompleteTextView
-                android:id="@+id/paymentMode"
+                android:id="@+id/transactionMode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:simpleItems="@array/paymentMethods" />
