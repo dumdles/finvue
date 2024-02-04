@@ -40,6 +40,8 @@ public class HomepageFragment extends Fragment {
     private TextView welcomeUser, amtSpentWk, amtLeftWk;
     private ImageView wkSpentRight;
 
+    double totalCost = 0.0;
+
     private int volleyResponseStatus;
 
     public HomepageFragment() {
@@ -100,6 +102,7 @@ public class HomepageFragment extends Fragment {
                 fbusername = task.getResult().getString("name");
                 welcomeUser.setText("Welcome, " + fbusername);
                 getByUserUUID(fbuserUUID);
+                getGoal(fbuserUUID);
             }
         });
     }
@@ -116,17 +119,68 @@ public class HomepageFragment extends Fragment {
                                 int count = response.getInt("count");
                                 if (count > 0) {
                                     JSONArray data = response.getJSONArray("data");
-                                    double totalCost = 0.0;
-                                    // Iterate through each record in the JSON array
 
+                                    // Iterate through each record in the JSON array
                                     for (int i = 0; i < data.length(); i++) {
                                         JSONObject transaction = data.getJSONObject(i);
                                         double cost = transaction.getDouble("cost"); // Extract the cost field from the current transaction
                                         totalCost += cost;
                                     }
 
-                                    amtSpentWk.setText("$" + totalCost);
+                                    amtSpentWk.setText("$ " + totalCost);
                                     Log.d("querydata", String.valueOf(data));
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        Log.e("OnErrorResponse", error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return TransactionVolleyHelper.getHeader();
+            }
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                volleyResponseStatus = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+        };
+        queue.add(jsonObjectRequest);
+
+    }
+
+    private void getGoal(String user_uuid) {
+        String usertableurl = TransactionVolleyHelper.user_url + user_uuid;
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, usertableurl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if (volleyResponseStatus == 200) {
+                            try {
+                                int count = response.getInt("count");
+                                if (count > 0) {
+                                    JSONArray data = response.getJSONArray("data");
+                                    double goal = data.getJSONObject(0).getDouble("goal");
+                                    double remaining = goal - totalCost;
+                                    if (remaining > 0) {
+                                        amtLeftWk.setText("$" + remaining + " left until spending limit!");
+                                    } else if (remaining < 0) {
+                                        amtLeftWk.setText("You have exceeded your spending limit by $" + Math.abs(remaining) + "!");
+                                    } else {
+                                        amtLeftWk.setText("You have reached your spending limit!");
+                                    }
+
+                                    Log.d("querygoal", String.valueOf(data));
                                 }
 
                             } catch (JSONException e) {
