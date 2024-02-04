@@ -58,4 +58,8 @@ dependencies {
     // Dependency for Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // Dependency for Horizontal Calendar View
+    implementation 'com.github.gastricspark:scrolldatepicker:0.0.1'
+
 }
+

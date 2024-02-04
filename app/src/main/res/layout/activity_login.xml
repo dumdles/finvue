@@ -88,6 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="59dp"
         android:layout_marginTop="63dp"
+        android:fontFamily="@font/space_grotesk_bold"
         android:text="Welcome to \nfinvue."
         android:textSize="35sp"
         android:textStyle="bold"
