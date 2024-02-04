@@ -260,6 +260,9 @@ public class SignupActivity extends AppCompatActivity {
             // Check if the user document already exists
             DocumentReference userRef = fStore.collection("users").document(userId);
 
+            String UserUUID = UUID.randomUUID().toString();
+            insertUserVolley(UserUUID, userEmail);
+
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
@@ -273,6 +276,7 @@ public class SignupActivity extends AppCompatActivity {
                         newUser.put("email", userEmail);
                         newUser.put("name", userName);
                         newUser.put("joinDate", getCurrentDate());
+                        newUser.put("useruuid", UserUUID);
 
                         userRef.set(newUser).addOnSuccessListener(unused -> {
                             Log.d(TAG, "New user document created for " + userId);

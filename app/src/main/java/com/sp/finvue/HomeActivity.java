@@ -158,6 +158,10 @@ public class HomeActivity extends AppCompatActivity {
         updateNavigationBar(); // Call a method to update the navigation bar based on the current fragment
     }
 
+    public void updateNavigationItemSelected(int itemId) {
+        navView.setSelectedItemId(itemId);
+    }
+
     private void updateNavigationBar() {
         // Check the current fragment and update the navbar
         int currentItem = R.id.homepage;
@@ -269,4 +273,8 @@ public class HomeActivity extends AppCompatActivity {
             return false;
         }
     };
+
+
+
+
 }
