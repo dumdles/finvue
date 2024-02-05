@@ -8,7 +8,7 @@ public class TransactionVolleyHelper {
     static String region =  "https://753a59ec-6802-408c-8cb6-a2927c108807-us-east1.apps.astra.datastax.com/api/rest";
     static String user_url = region + "/v2/keyspaces/transactions/user_table/";
     static String transaction_url = region + "/v2/keyspaces/transactions/user_trans/"; // action/
-    static String Cassandra_Token = "AstraCS:bXNQLQFRWjfhbahiYsHprRCj:27eebe7b7c9bd75e5a91ccae3c9b1d9386870c063f5d57b19b78938c983290d6";
+    static String Cassandra_Token = "AstraCS:swcBoNpSAlKFIRFdvBHkSdmM:8be36ea7fb138db56402e1f047c67b58a755d8e99349822f90d3e185666aa423";
     static int lastID = 0;
     static HashMap getHeader() {
         HashMap<String, String> headers = new HashMap<String, String>();

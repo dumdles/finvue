@@ -15,7 +15,12 @@
 
     import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
     import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.Comparator;
+    import java.util.Date;
     import java.util.List;
     import java.util.Map;
 
@@ -63,6 +68,20 @@
                 fetchUserData();
             }
         }
+        @Override
+        public void onResume() {
+            super.onResume();
+            mAuth = FirebaseAuth.getInstance();
+            fStore = FirebaseFirestore.getInstance();
+
+            // Get current user
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null) {
+                fbuserID = user.getUid();
+                // Fetch data from Firestore
+                fetchUserData();
+            }
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +111,8 @@
 
             // Initialise and set the adapter
             adapter = new TransactionAdapter(getActivity(), new ArrayList<>());
+
+            // Set the adapter to the RecyclerView
             recyclerView.setAdapter(adapter);
 
             // Update visibility of emptyView based on the data
@@ -99,8 +120,6 @@
 
             // Initialise VolleyResponse and empty
             volleyResponseStatus = 0;
-
-            getAllUserTransactions();
 
             return rootView;
 
@@ -112,13 +131,14 @@
                 if (task.isSuccessful()) {
                     fbuserUUID = task.getResult().getString("useruuid");
                 }
+                getAllUserTransactions(fbuserUUID);
             });
         }
 
         // Read all user transactions from Astra Database
-        private void getAllUserTransactions() {
-            String url = TransactionVolleyHelper.transaction_url + fbuserUUID;
-            RequestQueue queue = Volley.newRequestQueue(requireContext()); // Make sure to use the correct context
+        private void getAllUserTransactions(String user_uuid) {
+            String url = TransactionVolleyHelper.transaction_url + user_uuid;
+            RequestQueue queue = Volley.newRequestQueue(getContext()); // Make sure to use the correct context
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                     new Response.Listener<JSONObject>() {
@@ -133,8 +153,7 @@
                                         emptyView.setVisibility(View.INVISIBLE);
                                         JSONArray data = response.getJSONArray("data");// Get all the records as a JSON array
                                         Log.d("data array", String.valueOf(data));
-                                        List<Transaction> transactions = new ArrayList<>();
-
+                                        List<Transaction> transactions = adapter.getTransactions();
                                         for (int i = 0; i < count; i++) { // Loop through all records
                                             Transaction transaction = new Transaction(
                                                     data.getJSONObject(i).getString("user_id"),
@@ -152,6 +171,7 @@
                                             transactions.add(transaction); // Add the record to the adapter
                                         }
 
+                                        adapter.setTransactions(transactions);
                                         adapter.notifyDataSetChanged();
 
                                     } else {
@@ -193,6 +213,8 @@
                 emptyView.setVisibility(View.GONE);
             }
         }
+
+
 
 
 

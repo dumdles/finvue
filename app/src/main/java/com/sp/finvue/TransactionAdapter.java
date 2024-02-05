@@ -53,7 +53,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             super(itemView);
 
             // Initialize views from transaction_item.xml
-            transactionName = itemView.findViewById(R.id.transaction_name);
+            //transactionName = itemView.findViewById(R.id.transactionName);
+            transactionName = itemView.findViewById(R.id.transName);
             transactionCategory = itemView.findViewById(R.id.transactionCategory);
             transactionLocation = itemView.findViewById(R.id.transactionLocation);
             transactionAmount = itemView.findViewById(R.id.transactionAmount);
@@ -61,17 +62,26 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         public void bind(Transaction transaction) {
-            transactionUserId.setText(transaction.getUserId());
-            transactionId.setText(transaction.getId());
+//            transactionUserId.setText(transaction.getUserId());
+//            transactionId.setText(transaction.getId());
             transactionName.setText(transaction.getName());
             transactionCategory.setText(transaction.getCategory());
             transactionLocation.setText(transaction.getLocation());
-            transactionMop.setText(transaction.getMop());
-            transactionAmount.setText(String.format(Locale.getDefault(), "-$%.2f", transaction.getCost()));
+//            transactionMop.setText(transaction.getMop());
+            transactionAmount.setText(String.format(Locale.getDefault(), "$%.2f", transaction.getCost()));
 
         }
 
     }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
     public void clear() {
         transactions.clear();
         notifyDataSetChanged();

@@ -41,7 +41,7 @@ public class HomepageFragment extends Fragment {
     private ImageView wkSpentRight;
 
     double totalCost = 0.0;
-
+    int querycount = 0;
     private int volleyResponseStatus;
 
     public HomepageFragment() {
@@ -54,6 +54,20 @@ public class HomepageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        // Get current user
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            fbuserID = user.getUid();
+            // Fetch data from Firestore
+            fetchUserData();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
@@ -117,19 +131,27 @@ public class HomepageFragment extends Fragment {
                         if (volleyResponseStatus == 200) {
                             try {
                                 int count = response.getInt("count");
-                                if (count > 0) {
-                                    JSONArray data = response.getJSONArray("data");
+                                if (querycount < count) {
+                                    querycount = count;
+                                    if (count > 0) {
+                                        JSONArray data = response.getJSONArray("data");
 
-                                    // Iterate through each record in the JSON array
-                                    for (int i = 0; i < data.length(); i++) {
-                                        JSONObject transaction = data.getJSONObject(i);
-                                        double cost = transaction.getDouble("cost"); // Extract the cost field from the current transaction
-                                        totalCost += cost;
+                                        // Iterate through each record in the JSON array
+                                        for (int i = 0; i < data.length(); i++) {
+                                            JSONObject transaction = data.getJSONObject(i);
+                                            double cost = transaction.getDouble("cost"); // Extract the cost field from the current transaction
+                                            totalCost += cost;
+                                        }
+
+                                        amtSpentWk.setText("$ " + totalCost);
+                                        Log.d("querydata", String.valueOf(data));
                                     }
-
+                                } else {
                                     amtSpentWk.setText("$ " + totalCost);
-                                    Log.d("querydata", String.valueOf(data));
+                                    //Log.d("querydata", String.valueOf(data));
                                 }
+
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -3,18 +3,15 @@ package com.sp.finvue;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -38,9 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.google.android.material.textfield.TextInputEditText;
 
-import java.security.MessageDigestSpi;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,7 +66,7 @@ public class NewTransaction extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         transaction_Amount = findViewById(R.id.transactionAmount);
-        transaction_Name = findViewById(R.id.transactionName);
+        transaction_Name = findViewById(R.id.transName);
         transaction_Category = findViewById(R.id.transactionCategory);
         transaction_Location = findViewById(R.id.transactionLocation);
         transaction_Mode = findViewById(R.id.transactionMode);

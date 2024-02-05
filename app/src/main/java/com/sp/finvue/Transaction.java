@@ -19,6 +19,7 @@ public class Transaction {
         this.transactionId = transactionId;
         this.category = category;
         this.cost = cost;
+        this.name = name;
         this.date = date;
         this.location = location;
         this.mop = mop;

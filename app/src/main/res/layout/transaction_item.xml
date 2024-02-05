@@ -33,12 +33,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/transaction_name"
+                android:id="@+id/transName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/product_sans_bold"
-                android:maxLines="1"
                 android:text="Transaction Name"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
