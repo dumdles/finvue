@@ -70,7 +70,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.article_title);
+            titleTextView = itemView.findViewById(R.id.transaction_name);
             sourceTextView = itemView.findViewById(R.id.article_source);
             imageView = itemView.findViewById(R.id.article_image_view);
         }

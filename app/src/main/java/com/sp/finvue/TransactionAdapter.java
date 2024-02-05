@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
     private List<Transaction> transactions;
@@ -30,14 +31,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
         Transaction transaction = transactions.get(position);
-
-        // Set data to views
-        holder.articleTitle.setText(transaction.getName());
-        holder.transactionCategory.setText(transaction.getCategory());
-        holder.transactionLocation.setText(transaction.getLocation());
-        holder.transactionAmount.setText(String.format(context.getString(R.string.amount_format), transaction.getAmount()));
-        // Set the category icon dynamically based on the transaction category
-        holder.categoryIcon.setText(transaction.getCategoryIcon()); // Replace with the actual logic to set the icon
+        holder.bind(transaction);
     }
 
     @Override
@@ -46,22 +40,40 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     static class TransactionViewHolder extends RecyclerView.ViewHolder {
-
-        TextView articleTitle;
+        TextView transactionUserId;
+        TextView transactionId;
+        TextView transactionName;
         TextView transactionCategory;
         TextView transactionLocation;
         TextView transactionAmount;
         TextView categoryIcon;
+        TextView transactionMop;
 
         public TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
 
             // Initialize views from transaction_item.xml
-            articleTitle = itemView.findViewById(R.id.article_title);
+            transactionName = itemView.findViewById(R.id.transaction_name);
             transactionCategory = itemView.findViewById(R.id.transactionCategory);
             transactionLocation = itemView.findViewById(R.id.transactionLocation);
             transactionAmount = itemView.findViewById(R.id.transactionAmount);
             categoryIcon = itemView.findViewById(R.id.categoryIcon);
         }
+
+        public void bind(Transaction transaction) {
+            transactionUserId.setText(transaction.getUserId());
+            transactionId.setText(transaction.getId());
+            transactionName.setText(transaction.getName());
+            transactionCategory.setText(transaction.getCategory());
+            transactionLocation.setText(transaction.getLocation());
+            transactionMop.setText(transaction.getMop());
+            transactionAmount.setText(String.format(Locale.getDefault(), "-$%.2f", transaction.getCost()));
+
+        }
+
+    }
+    public void clear() {
+        transactions.clear();
+        notifyDataSetChanged();
     }
 }
