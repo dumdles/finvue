@@ -1,7 +1,9 @@
 package com.sp.finvue;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -38,7 +40,8 @@ public class HomepageFragment extends Fragment {
     private String fbuserUUID, fbusername;
 
     private TextView welcomeUser, amtSpentWk, amtLeftWk;
-    private ImageView wkSpentRight;
+    private CardView spending, addTrans, statistic, readArticle;
+    private ImageView homeProfile;
 
     double totalCost = 0.0;
 
@@ -74,8 +77,22 @@ public class HomepageFragment extends Fragment {
         welcomeUser = view.findViewById(R.id.welcomeuser);
         amtSpentWk = view.findViewById(R.id.homeamtspent);
         amtLeftWk = view.findViewById(R.id.homeamtleft);
-        wkSpentRight = view.findViewById(R.id.spentthisweekright);
-        wkSpentRight.setOnClickListener(new View.OnClickListener() {
+
+        homeProfile = view.findViewById(R.id.homeprofile);
+        spending = view.findViewById(R.id.spentthisweek);
+        addTrans = view.findViewById(R.id.homeaddtransaction);
+        statistic = view.findViewById(R.id.knowyourtrends);
+        readArticle = view.findViewById(R.id.homereadarticles);
+
+        homeProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProfilePage.class);
+                startActivity(intent);
+            }
+        });
+
+        spending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create an instance of the SpendingFragment
@@ -91,6 +108,47 @@ public class HomepageFragment extends Fragment {
                 }
             }
         });
+
+        addTrans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewTransaction.class);
+                startActivity(intent);
+            }
+        });
+
+        statistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StatisticsFragment statisticsFragment = new StatisticsFragment();
+
+                // Replace the current fragment with the SpendingFragment
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, statisticsFragment)
+                        .addToBackStack(null)  // Add to the back stack for back navigation
+                        .commit();
+                if (getActivity() instanceof HomeActivity) {
+                    ((HomeActivity) getActivity()).updateNavigationItemSelected(R.id.stats);
+                }
+            }
+        });
+
+        readArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewsFragment newsFragment = new NewsFragment();
+
+                // Replace the current fragment with the SpendingFragment
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, newsFragment)
+                        .addToBackStack(null)  // Add to the back stack for back navigation
+                        .commit();
+                if (getActivity() instanceof HomeActivity) {
+                    ((HomeActivity) getActivity()).updateNavigationItemSelected(R.id.news);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -100,7 +158,7 @@ public class HomepageFragment extends Fragment {
             if (task.isSuccessful()) {
                 fbuserUUID = task.getResult().getString("useruuid");
                 fbusername = task.getResult().getString("name");
-                welcomeUser.setText("Welcome, " + fbusername);
+                welcomeUser.setText("Welcome,\n" + fbusername);
                 getByUserUUID(fbuserUUID);
                 getGoal(fbuserUUID);
             }
@@ -127,7 +185,7 @@ public class HomepageFragment extends Fragment {
                                         totalCost += cost;
                                     }
 
-                                    amtSpentWk.setText("$ " + totalCost);
+                                    amtSpentWk.setText("$ " + String.format("%.2f", totalCost));
                                     Log.d("querydata", String.valueOf(data));
                                 }
 
@@ -170,17 +228,21 @@ public class HomepageFragment extends Fragment {
                                 int count = response.getInt("count");
                                 if (count > 0) {
                                     JSONArray data = response.getJSONArray("data");
-                                    double goal = data.getJSONObject(0).getDouble("goal");
-                                    double remaining = goal - totalCost;
-                                    if (remaining > 0) {
-                                        amtLeftWk.setText("$" + remaining + " left until spending limit!");
-                                    } else if (remaining < 0) {
-                                        amtLeftWk.setText("You have exceeded your spending limit by $" + Math.abs(remaining) + "!");
+                                    Log.d("querygoal", String.valueOf(data));
+                                    if (data.getJSONObject(0).isNull("goal")) {
+                                        amtLeftWk.setText("Please set your goal now!");
                                     } else {
-                                        amtLeftWk.setText("You have reached your spending limit!");
+                                        double goal = data.getJSONObject(0).getDouble("goal");
+                                        double remaining = goal - totalCost;
+                                        if (remaining > 0) {
+                                            amtLeftWk.setText("$" + remaining + " left until spending limit!");
+                                        } else if (remaining < 0) {
+                                            amtLeftWk.setText("You have exceeded your spending limit by $" + Math.abs(remaining) + "!");
+                                        } else {
+                                            amtLeftWk.setText("You have reached your spending limit!");
+                                        }
                                     }
 
-                                    Log.d("querygoal", String.valueOf(data));
                                 }
 
                             } catch (JSONException e) {

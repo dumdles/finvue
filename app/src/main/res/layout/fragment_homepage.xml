@@ -31,12 +31,12 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/homeprofile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_marginVertical="20dp"
                 android:layout_marginLeft="50dp"
-                android:src="@drawable/baseline_notifications" />
+                android:src="@drawable/baseline_person" />
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -52,6 +52,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/spentthisweek"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:backgroundTint="#FFE4BA"
@@ -148,121 +149,133 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent" >
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="170dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/bluegrad1"
-                app:cardCornerRadius="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bluegrad1"
-                    android:orientation="vertical"
-                    android:padding="15dp">
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/knowyourtrends"
+                        android:layout_width="170dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bluegrad1"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bluegrad1"
+                            android:orientation="vertical"
+                            android:padding="15dp"
+                            android:paddingVertical="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/textView10"
+                                    android:layout_width="105dp"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:text="KNOW YOUR SPENDING TRENDS"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:id="@+id/imageView3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/baseline_right" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="70dp"
+                                android:fontFamily="@font/dm_sans_medium"
+                                android:text="How should I improve my spending habits?"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/homeaddtransaction"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardBackgroundColor="#80FFFFFF"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="174dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/purplegrad1"
+                            android:orientation="vertical"></LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/homereadarticles"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:cardBackgroundColor="#01A7C2"
+                    app:cardCornerRadius="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bluegrad2"
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
                         <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="90dp"
+                            android:id="@+id/textView9"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:fontFamily="@font/inter_medium"
-                            android:text="GET TIPS ON SAVING"
+                            android:paddingLeft="10dp"
+                            android:text="LEARN MORE ABOUT INVESTING"
                             android:textColor="#000000"
                             android:textSize="12sp" />
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@drawable/baseline_right" />
+                            android:layout_marginTop="30dp"
+                            android:fontFamily="@font/inter_medium"
+                            android:paddingLeft="10dp"
+                            android:text="Read articles"
+                            android:textColor="#ffffff"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="80dp"
-                        android:fontFamily="@font/dm_sans_medium"
-                        android:text="How should I improve my spending habits?"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="10dp">
-
-                <LinearLayout
-                    android:layout_width="174dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/purplegrad1"
-                    android:orientation="horizontal"></LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:cardBackgroundColor="#01A7C2"
-                app:cardCornerRadius="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bluegrad2"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/inter_medium"
-                        android:paddingLeft="10dp"
-                        android:text="LEARN MORE ABOUT INVESTING"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_medium"
-                        android:paddingLeft="10dp"
-                        android:text="Read articles"
-                        android:textColor="#ffffff"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 </FrameLayout>
