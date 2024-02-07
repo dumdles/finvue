@@ -126,6 +126,34 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/goal_setting"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_button_2"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginVertical="15dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/baseline_goal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="10dp"
+            android:fontFamily="@font/product_sans_regular"
+            android:gravity="center_vertical"
+            android:text="Goal setting"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
