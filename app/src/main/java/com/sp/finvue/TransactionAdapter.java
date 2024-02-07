@@ -70,6 +70,33 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 //            transactionMop.setText(transaction.getMop());
             transactionAmount.setText(String.format(Locale.getDefault(), "$%.2f", transaction.getCost()));
 
+            // Set category icon based on transaction category
+            int iconResource = getCategoryIcon(transaction.getCategory());
+            if (iconResource != 0) {
+                categoryIcon.setCompoundDrawablesWithIntrinsicBounds(iconResource, 0, 0, 0);
+            }
+
+        }
+
+        private int getCategoryIcon(String category) {
+            switch (category) {
+                case "Groceries":
+                    return R.drawable.ic_groceries;
+                case "Transport":
+                    return R.drawable.ic_transportation;
+                case "Shopping":
+                    return R.drawable.ic_shopping;
+                case "Food":
+                    return R.drawable.ic_food;
+                case "Entertainment":
+                    return R.drawable.ic_entertainment;
+                case "Transfer to Friend":
+                    return R.drawable.ic_transfer;
+                case "Other":
+                    return R.drawable.ic_cash;
+                default:
+                    return 0; // No icon found
+            }
         }
 
     }

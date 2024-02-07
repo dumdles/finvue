@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/product_sans_bold"
-            android:text="$4.50"
+            android:text="$0"
             android:textSize="70dp"
             app:boxBackgroundMode="none"
             />

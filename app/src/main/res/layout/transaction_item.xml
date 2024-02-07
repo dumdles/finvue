@@ -19,8 +19,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="15dp"
-            android:gravity="center"
-            android:text="A"
+            android:paddingLeft="12dp"
+            android:layout_gravity="center"
             android:background="@drawable/custom_card"
             android:textColor="@color/black"
             android:textSize="24sp" />
