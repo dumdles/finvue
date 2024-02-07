@@ -203,7 +203,7 @@ public class HomepageFragment extends Fragment {
                                         Log.d("querydata", String.valueOf(data));
                                     }
                                 } else {
-                                    amtSpentWk.setText("$ " + totalCost);
+                                    amtSpentWk.setText("$ " + String.format("%.2f", totalCost));
                                     //Log.d("querydata", String.valueOf(data));
                                 }
 
