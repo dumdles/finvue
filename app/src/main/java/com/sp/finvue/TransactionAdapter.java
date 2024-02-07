@@ -1,6 +1,8 @@
 package com.sp.finvue;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +37,29 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         return new TransactionViewHolder(view);
     }
 
+    // Interface for communicating delete action
+    public interface TransactionDeleteListener {
+        void onTransactionDeleted(Transaction transaction);
+    }
+
+    // Listener instance
+    private TransactionDeleteListener deleteListener;
+
+    // Method to set the delete listener
+    public void setDeleteListener(TransactionDeleteListener listener) {
+        this.deleteListener = listener;
+    }
+
+    // Method to remove delete listener
+    public void removeDeleteListener() {
+        this.deleteListener = null;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
         Transaction transaction = transactions.get(position);
 
-        // Put code here to activate the dialog
+        // Activate the dialog to display transaction info
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,8 +68,54 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             }
         });
 
-
         holder.bind(transaction);
+
+//        holder.buttonDiscard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showDialogForDiscard(context, transaction);
+//            }
+//        });
+    }
+
+    // Method to show dialog for confirmation before discard
+    private void showDialogForDiscard(Context context, Transaction transaction) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+        builder.setTitle("Confirm Deletion");
+        builder.setMessage("Are you sure you want to delete this transaction? This cannot be undone!");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Perform deletion operation
+                deleteTransaction(transaction);
+
+                // Dismiss the dialog
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Dismiss the dialog
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    // Method to delete the transaction
+    private void deleteTransaction(Transaction transaction) {
+        // Perform delete operation
+        // Then notify the adapter
+        int index = transactions.indexOf(transaction);
+        if (index != -1) {
+            transactions.remove(index);
+            notifyItemRemoved(index);
+            notifyItemRangeChanged(index, getItemCount());
+            if (deleteListener != null) {
+                deleteListener.onTransactionDeleted(transaction);
+            }
+        }
     }
 
     public void showDialogWithDetails(Context context, Transaction transaction) {
@@ -67,8 +133,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         TextView textViewCategory = dialogView.findViewById(R.id.textViewCategory);
         TextView textViewRemarks = dialogView.findViewById(R.id.textViewRemarks);
         TextView textViewTransId = dialogView.findViewById(R.id.textViewTransId);
-        TextView categoryIcon = dialogView.findViewById(R.id.categoryIcon); // Find the category icon TextView
-
+        TextView categoryIcon = dialogView.findViewById(R.id.categoryIcon);
+        Button buttonDiscard = dialogView.findViewById(R.id.buttonDiscard);
 
         // Set transaction details to the dialog views
         textViewTransName.setText(transaction.getName());
@@ -88,13 +154,24 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 // Enlarge the icon
                 icon.setBounds(0, 0, icon.getIntrinsicWidth() * 2, icon.getIntrinsicHeight() * 2);
                 categoryIcon.setCompoundDrawables(icon, null, null, null);
-            }        }
+            }
+        }
 
-        Button buttonDiscard = dialogView.findViewById(R.id.buttonDiscard);
+        // Share function
+        Button buttonShare = dialogView.findViewById(R.id.shareBtn);
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareTransaction(context, transaction);
+            }
+        });
+
         buttonDiscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle discard action
+                showDialogForDiscard(context, transaction);
+                // Dismiss the dialog
             }
         });
 
@@ -133,6 +210,26 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
     }
 
+    private void shareTransaction(Context context, Transaction transaction) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getTransactionDetails(transaction));
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        context.startActivity(shareIntent);
+    }
+
+    private String getTransactionDetails(Transaction transaction) {
+        return "Check out my latest transaction in finvue!" + "\n\n" +
+                "Transaction Name: " + transaction.getName() + "\n" +
+                "Amount: $" + String.format(Locale.getDefault(), "%.2f", transaction.getCost()) + "\n" +
+                "Date: " + transaction.getDate() + "\n" +
+                "Category: " + transaction.getCategory() + "\n" +
+                "Location: " + transaction.getLocation() + "\n" +
+                "Remarks: " + transaction.getRemarks();
+    }
+
 
     @Override
     public int getItemCount() {
@@ -140,34 +237,30 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     static class TransactionViewHolder extends RecyclerView.ViewHolder {
-        TextView transactionUserId;
-        TextView transactionId;
         TextView transactionName;
         TextView transactionCategory;
         TextView transactionLocation;
         TextView transactionAmount;
         TextView categoryIcon;
-        TextView transactionMop;
+        Button buttonDiscard;
 
         public TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
 
             // Initialize views from transaction_item.xml
-            //transactionName = itemView.findViewById(R.id.transactionName);
             transactionName = itemView.findViewById(R.id.transName);
             transactionCategory = itemView.findViewById(R.id.transactionCategory);
             transactionLocation = itemView.findViewById(R.id.transactionLocation);
             transactionAmount = itemView.findViewById(R.id.transactionAmount);
             categoryIcon = itemView.findViewById(R.id.categoryIcon);
+            buttonDiscard = itemView.findViewById(R.id.buttonDiscard);
         }
 
         public void bind(Transaction transaction) {
-//            transactionUserId.setText(transaction.getUserId());
-//            transactionId.setText(transaction.getId());
+
             transactionName.setText(transaction.getName());
             transactionCategory.setText(transaction.getCategory());
             transactionLocation.setText(transaction.getLocation());
-//            transactionMop.setText(transaction.getMop());
             transactionAmount.setText(String.format(Locale.getDefault(), "$%.2f", transaction.getCost()));
 
             // Set category icon based on transaction category
@@ -193,4 +286,5 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         transactions.clear();
         notifyDataSetChanged();
     }
+
 }

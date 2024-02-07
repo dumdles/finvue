@@ -214,15 +214,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="@font/product_sans_bold"
-                android:text="ID" />
+                android:text="Transaction ID" />
 
             <TextView
                 android:id="@+id/textViewTransId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:layout_marginLeft="50dp"
+                android:gravity="right"
                 android:fontFamily="sans-serif"
                 android:text="1236ae90-49f2-44ce-aa1d-0082ca8ba238" />
 
