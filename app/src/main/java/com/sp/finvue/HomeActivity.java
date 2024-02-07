@@ -176,9 +176,6 @@ public class HomeActivity extends AppCompatActivity {
                     case "stats":
                         currentItem = R.id.stats;
                         break;
-                    case "add":
-                        currentItem = R.id.add;
-                        break;
                     case "spendings":
                         currentItem = R.id.spendings;
                         break;
@@ -244,13 +241,6 @@ public class HomeActivity extends AppCompatActivity {
             } else if (id == R.id.stats) {
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, statisticsFragment)
-                        .setReorderingAllowed(true)
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            } else if (id == R.id.add) {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, addFragment)
                         .setReorderingAllowed(true)
                         .addToBackStack(null)
                         .commit();

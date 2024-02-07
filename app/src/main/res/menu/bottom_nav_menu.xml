@@ -8,10 +8,7 @@
         android:id="@+id/stats"
         android:title="Statistics"
         android:icon="@drawable/baseline_statistics"/>
-    <item
-        android:id="@+id/add"
-        android:title="Add"
-        android:icon="@drawable/baseline_add"/>
+
     <item
         android:id="@+id/spendings"
         android:title="Spendings"

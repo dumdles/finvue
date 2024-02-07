@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="0dp"
             android:paddingVertical="15dp">
 
             <TextView
                 android:id="@+id/welcomeuser"
                 android:layout_width="200dp"
                 android:layout_height="80dp"
-                android:fontFamily="@font/dm_sans_medium"
+                android:fontFamily="@font/product_sans_bold"
                 android:text="Welcome, "
                 android:textColor="#000000"
                 android:textSize="30sp"
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginVertical="20dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="100dp"
                 android:src="@drawable/baseline_person" />
         </LinearLayout>
 
@@ -118,34 +118,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="30dp"
             android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/dashboard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/dm_sans_medium"
+                android:layout_weight="0"
+                android:fontFamily="@font/product_sans_regular"
                 android:text="My Dashboard"
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/homeviewmore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:paddingRight="10dp"
-                android:text="VIEW MORE"
-                android:textAlignment="textEnd"
-                android:textColor="#101010"
-                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -193,15 +179,16 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/inter_medium"
                                     android:text="KNOW YOUR SPENDING TRENDS"
-                                    android:textColor="#000000"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                                 <ImageView
                                     android:id="@+id/imageView3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="50dp"
+                                    android:layout_height="40dp"
                                     android:layout_weight="1"
-                                    android:src="@drawable/baseline_right" />
+                                    android:background="@drawable/baseline_right"
+                                    android:backgroundTint="@color/black"/>
                             </LinearLayout>
 
                             <TextView
@@ -209,10 +196,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="70dp"
-                                android:fontFamily="@font/dm_sans_medium"
-                                android:text="How should I improve my spending habits?"
+                                android:fontFamily="@font/product_sans_regular"
+                                android:text="View
+                                \nStatistics"
                                 android:textColor="#FFFFFF"
-                                android:textSize="14sp"
+                                android:textSize="22dp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -229,7 +217,29 @@
                             android:layout_width="174dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/purplegrad1"
-                            android:orientation="vertical"></LinearLayout>
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/baseline_add"
+                                android:backgroundTint="#FFFFFF"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="70dp"
+                                android:layout_marginLeft="15dp"
+                                android:textSize="22dp"
+                                android:text="Add New \nTransaction"
+                                android:fontFamily="@font/product_sans_regular"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"/>
+
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -255,21 +265,21 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/inter_medium"
-                            android:paddingLeft="10dp"
-                            android:text="LEARN MORE ABOUT INVESTING"
-                            android:textColor="#000000"
+                            android:layout_marginLeft="10dp"
+                            android:text="LEARN MORE ABOUT INVESTING!"
+                            android:textColor="@color/white"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:fontFamily="@font/inter_medium"
-                            android:paddingLeft="10dp"
-                            android:text="Read articles"
+                            android:layout_marginTop="35dp"
+                            android:fontFamily="@font/product_sans_regular"
+                            android:layout_marginLeft="10dp"
+                            android:text="Read the latest articles!"
                             android:textColor="#ffffff"
-                            android:textSize="16sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
