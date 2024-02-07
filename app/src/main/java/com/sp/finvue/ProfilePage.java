@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -46,6 +47,7 @@ public class ProfilePage extends AppCompatActivity {
 
         Button editProfile = findViewById(R.id.edit_profile_btn);
         LinearLayout signOut = findViewById(R.id.sign_out_btn);
+        LinearLayout settings = findViewById(R.id.settingbutton);
 
         // Get the current user
         FirebaseUser user = mAuth.getCurrentUser();
@@ -72,6 +74,15 @@ public class ProfilePage extends AppCompatActivity {
                 Intent intent = new Intent(ProfilePage.this, LoginActivity.class);
                 startActivity(intent);
                 finish(); // Close the current activity
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(android.net.Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
             }
         });
     }
