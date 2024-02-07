@@ -39,7 +39,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
                 .placeholder(R.drawable.baseline_image_not_supported)
                 .into(holder.imageView);
 
-        holder.itemView.setOnClickListener((v -> {
+            holder.itemView.setOnClickListener((v -> {
             Intent intent = new Intent(v.getContext(), NewsActivityFull.class);
             intent.putExtra("url", article.getUrl());
             v.getContext().startActivity(intent);
