@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.android.volley.NetworkResponse;
@@ -102,6 +105,15 @@ public class SpendingFragment extends Fragment implements TransactionAdapter.Tra
                 // Show the dialog when FAB is clicked
                 Intent intent = new Intent(getActivity(), NewTransaction.class);
                 startActivity(intent);
+            }
+
+        });
+
+        // Set up your filter button click listener
+        rootView.findViewById(R.id.sortTransactions).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSortOptions(); // Method to show sort options menu
             }
         });
 
@@ -210,6 +222,78 @@ public class SpendingFragment extends Fragment implements TransactionAdapter.Tra
 
         // Add JsonObjectRequest to the RequestQueue
         queue.add(jsonObjectRequest);
+    }
+
+    // Method to show sort options menu
+    private void showSortOptions() {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.sortTransactions));
+        popupMenu.inflate(R.menu.spending_sort); // Your menu XML file
+
+        // Set item click listener
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Handle item click events
+                // Handle item click events
+                if (item.getItemId() == R.id.option_1) {
+                    // Sort transactions from latest to oldest
+                    sortTransactionsLatestToOldest();
+                    return true;
+                } else if (item.getItemId() == R.id.option_2) {
+                    // Sort transactions from oldest to latest
+                    sortTransactionsOldestToLatest();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // Show the popup menu
+        popupMenu.show();
+    }
+
+    // Method to sort transactions from latest to oldest
+    private void sortTransactionsLatestToOldest() {
+        // Implement your sorting logic here
+        Collections.sort(adapter.getTransactions(), new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction t1, Transaction t2) {
+                // Parse date strings to Date objects for comparison
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                try {
+                    Date date1 = sdf.parse(t1.getDate());
+                    Date date2 = sdf.parse(t2.getDate());
+                    // Compare dates (latest to oldest)
+                    return date2.compareTo(date1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0; // Return 0 if unable to parse dates
+            }
+        });
+        adapter.notifyDataSetChanged(); // Notify adapter after sorting
+    }
+
+    // Method to sort transactions from oldest to latest
+    private void sortTransactionsOldestToLatest() {
+        // Implement your sorting logic here
+        Collections.sort(adapter.getTransactions(), new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction t1, Transaction t2) {
+                // Parse date strings to Date objects for comparison
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                try {
+                    Date date1 = sdf.parse(t1.getDate());
+                    Date date2 = sdf.parse(t2.getDate());
+                    // Compare dates (oldest to latest)
+                    return date1.compareTo(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0; // Return 0 if unable to parse dates
+            }
+        });
+        adapter.notifyDataSetChanged(); // Notify adapter after sorting
     }
 
     @Override
