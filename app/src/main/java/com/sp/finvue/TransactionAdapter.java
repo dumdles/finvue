@@ -206,7 +206,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             case "Other":
                 return R.drawable.ic_cash;
             default:
-                return 0; // No icon found
+                return R.drawable.ic_cash;
         }
     }
 

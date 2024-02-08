@@ -249,7 +249,6 @@ public class SpendingFragment extends Fragment implements TransactionAdapter.Tra
         queue.add(jsonObjectRequest);
     }
 
-
     private void updateEmptyViewVisibility() {
         if (adapter.getItemCount() == 0) {
             emptyView.setVisibility(View.VISIBLE);
