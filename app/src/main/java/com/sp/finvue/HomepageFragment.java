@@ -29,6 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -192,10 +195,25 @@ public class HomepageFragment extends Fragment {
                                     if (count > 0) {
                                         JSONArray data = response.getJSONArray("data");
 
-                                        // Iterate through each record in the JSON array
+                                        List<JSONObject> transactionsInMonth = new ArrayList<>();
+                                        LocalDate currentDate = LocalDate.now();
+                                        int currentMonth = currentDate.getMonthValue();
+
                                         for (int i = 0; i < data.length(); i++) {
                                             JSONObject transaction = data.getJSONObject(i);
-                                            double cost = transaction.getDouble("cost"); // Extract the cost field from the current transaction
+                                            String date = transaction.getString("date");
+                                            int transactionMonth = Integer.parseInt(date.substring(5, 7)); // Extract the month part from the date
+
+                                            if (transactionMonth == currentMonth) {
+                                                transactionsInMonth.add(transaction);
+                                            }
+                                        }
+                                        JSONArray transactionsInCurrentMonth = new JSONArray(transactionsInMonth);
+
+                                        // Iterate through each record in the JSON array
+                                        for (int i = 0; i < transactionsInCurrentMonth.length(); i++) {
+                                            JSONObject transactionCM = transactionsInCurrentMonth.getJSONObject(i);
+                                            double cost = transactionCM.getDouble("cost"); // Extract the cost field from the current transaction
                                             totalCost += cost;
                                         }
 

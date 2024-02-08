@@ -13,6 +13,7 @@ public class Transaction {
     private String userId;
     private String transactionId;
 
+
     // Constructor to initialize the transaction with its attributes
     public Transaction(String userId, String transactionId, String category, double cost, String date, String location, String mop, String name, String remarks, String submissionTime) {
         this.userId = userId;
