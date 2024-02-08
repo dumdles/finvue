@@ -2,6 +2,8 @@
 <resources>
     <array name="transactionCategories">
         <item>Food</item>
+        <item>Groceries</item>
+        <item>Shopping</item>
         <item>Transport</item>
         <item>Entertainment</item>
         <item>Transfer to Friend</item>
