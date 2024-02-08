@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -54,8 +55,17 @@ public class StatisticsFragment extends Fragment {
     double totalCost = 0.0;
     double goalAmt = 0.0;
     int querycount = 0;
-    private JSONArray retrievedData;
     BarChart barChart;
+
+    double groceryAmt = 0;
+    double transportAmt = 0;
+    double shoppingAmt = 0;
+    double foodAmt = 0;
+    double entertainmentAmt = 0;
+    double transferAmt = 0;
+    double otherAmt = 0;
+
+    private TextView statsfood, statstransport, statsentertainment, statsshopping, statstransfer, statsgroceries, statsother;
 
     public StatisticsFragment() {
         // Required empty public constructor
@@ -87,6 +97,7 @@ public class StatisticsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+
         // Get current user
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
@@ -101,16 +112,19 @@ public class StatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        statsfood = view.findViewById(R.id.stats_food);
+        statstransport = view.findViewById(R.id.stats_transportation);
+        statsentertainment = view.findViewById(R.id.stats_entertainment);
+        statsshopping = view.findViewById(R.id.stats_shopping);
+        statstransfer = view.findViewById(R.id.stats_transfer);
+        statsgroceries = view.findViewById(R.id.stats_groceries);
+        statsother = view.findViewById(R.id.stats_others);
+
         barChart = view.findViewById(R.id.stacked_barchart);
 
+        barChart.setRotation(90);
+        barChart.setFitBars(true);
         fetchUserData();
-        ArrayList<BarEntry> barValue = new ArrayList<>();
-        //barValue.add(new BarEntry(0, new float[]{(float) totalCost, (float) goalAmt}));
-        barValue.add(new BarEntry(1, new float[]{2,5.5f}));
-        Log.d("bar val", String.valueOf(barValue));
-        BarDataSet barDataSet = new BarDataSet(barValue, "");
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
         return view;
     }
 
@@ -120,22 +134,71 @@ public class StatisticsFragment extends Fragment {
             if (task.isSuccessful()) {
                 fbuserUUID = task.getResult().getString("useruuid");
             }
-            totalCost = getAllUserTransactions(fbuserUUID);
-            goalAmt = getGoal(fbuserUUID);
+            getAllStatistics(fbuserUUID);
+
+
         });
         
     }
 
-    private double getAllUserTransactions(String user_uuid) {
+    private void getAllStatistics(String user_uuid) {
         String useruuidurl = TransactionVolleyHelper.transaction_url + user_uuid;
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, useruuidurl, null,
+        RequestQueue queue1 = Volley.newRequestQueue(getContext());
+        String usertableurl = TransactionVolleyHelper.user_url + user_uuid;
+        RequestQueue queue2 = Volley.newRequestQueue(getContext());
+        JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(Request.Method.GET, useruuidurl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (volleyResponseStatus == 200) {
                             try {
                                 int count = response.getInt("count");
+                                if (count > 0) {
+                                    JSONArray data = response.getJSONArray("data");
+                                    double groceryAmt = 0;
+                                    double transportAmt = 0;
+                                    double shoppingAmt = 0;
+                                    double foodAmt = 0;
+                                    double entertainmentAmt = 0;
+                                    double transferAmt = 0;
+                                    double otherAmt = 0;
+
+                                    for (int i = 0; i < data.length(); i++) {
+                                        String category = data.getJSONObject(i).getString("category");
+                                        Double cost = data.getJSONObject(i).getDouble("cost");
+                                        switch (category) {
+                                            case "Groceries":
+                                                groceryAmt += cost;
+                                                break;
+                                            case "Transport":
+                                                transportAmt += cost;
+                                                break;
+                                            case "Shopping":
+                                                shoppingAmt += cost;
+                                                break;
+                                            case "Food":
+                                                foodAmt += cost;
+                                                break;
+                                            case "Entertainment":
+                                                entertainmentAmt += cost;
+                                                break;
+                                            case "Transfer to Friend":
+                                                transferAmt += cost;
+                                                break;
+                                            case "Other":
+                                                otherAmt += cost;
+                                                break;
+                                        }
+                                    }
+
+                                    statsfood.setText("$ " + String.format("%.2f", foodAmt));
+                                    statstransport.setText("$ " + String.format("%.2f", transportAmt));
+                                    statsentertainment.setText("$ " + String.format("%.2f", entertainmentAmt));
+                                    statsshopping.setText("$ " + String.format("%.2f", shoppingAmt));
+                                    statstransfer.setText("$ " + String.format("%.2f", transferAmt));
+                                    statsgroceries.setText("$ " + String.format("%.2f", groceryAmt));
+                                    statsother.setText("$ " + String.format("%.2f", otherAmt));
+                                }
                                 if (querycount < count) {
                                     querycount = count;
                                     if (count > 0) {
@@ -143,6 +206,7 @@ public class StatisticsFragment extends Fragment {
                                         List<JSONObject> transactionsInMonth = new ArrayList<>();
                                         LocalDate currentDate = LocalDate.now();
                                         int currentMonth = currentDate.getMonthValue();
+
 
                                         for (int i = 0; i < data.length(); i++) {
                                             JSONObject transaction = data.getJSONObject(i);
@@ -161,6 +225,7 @@ public class StatisticsFragment extends Fragment {
                                             double cost = transactionCM.getDouble("cost"); // Extract the cost field from the current transaction
                                             totalCost += cost;
                                         }
+                                        setBarChartData(totalCost);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -186,13 +251,8 @@ public class StatisticsFragment extends Fragment {
                 return super.parseNetworkResponse(response);
             }
         };
-        queue.add(jsonObjectRequest);
-        return totalCost;
-    }
-    private double getGoal(String user_uuid) {
-        String usertableurl = TransactionVolleyHelper.user_url + user_uuid;
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, usertableurl, null,
+
+        JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest(Request.Method.GET, usertableurl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -204,6 +264,7 @@ public class StatisticsFragment extends Fragment {
                                     JSONArray data = response.getJSONArray("data");
                                     goalAmt = data.getJSONObject(0).getDouble("goal");
                                 }
+                                setBarChartData(goalAmt);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -228,7 +289,16 @@ public class StatisticsFragment extends Fragment {
                 return super.parseNetworkResponse(response);
             }
         };
-        queue.add(jsonObjectRequest);
-        return goalAmt;
+        queue1.add(jsonObjectRequest1);
+        queue2.add(jsonObjectRequest2);
+
+    }
+    private void setBarChartData(double barAmt) {
+        Log.d("total", String.valueOf(barAmt));
+        ArrayList<BarEntry> barValue = new ArrayList<>();
+        barValue.add(new BarEntry(0, new float[]{}));
+        BarDataSet barDataSet = new BarDataSet(barValue, "");
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
     }
 }
