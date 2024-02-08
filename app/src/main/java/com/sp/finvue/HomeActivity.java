@@ -189,6 +189,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Update the selected item in the navigation bar
         navView.setSelectedItemId(currentItem);
+
     }
 
 
@@ -223,7 +224,6 @@ public class HomeActivity extends AppCompatActivity {
                     .addToBackStack(null)
                     .commit();
         }
-
 
     }
 
