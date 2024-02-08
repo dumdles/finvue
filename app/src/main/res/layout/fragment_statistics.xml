@@ -5,10 +5,35 @@
     android:layout_height="match_parent"
     tools:context=".StatisticsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/product_sans_bold"
+            android:text="Statistics"
+            android:textSize="30dp" />
+
+        <LinearLayout
+            android:id="@+id/bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/stacked_barchart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </FrameLayout>

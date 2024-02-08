@@ -61,4 +61,7 @@ dependencies {
     // Volley for AstraDB
     implementation 'com.android.volley:volley:1.2.1'
 
+    // Dependency for Bar Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }
