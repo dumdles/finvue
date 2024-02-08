@@ -82,6 +82,16 @@ public class LoginActivity extends AppCompatActivity {
 
     // Implement the signInWithEmailAndPassword method
     private void signInWithEmailAndPassword(String email, String password) {
+        // Check if email and password fields are empty
+        if (email.isEmpty()) {
+            showSnackbar("Please enter your email!");
+            return;
+        }
+        if (password.isEmpty()) {
+            showSnackbar("Please enter your password");
+            return;
+        }
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -89,8 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success
                             Log.d(TAG, "signInWithEmail:success");
-//                            Toast.makeText(LoginActivity.this, "Logged in",
-//                                    Toast.LENGTH_SHORT).show();
                             showSnackbar("Logged in");
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Update UI or navigate to the next activity
@@ -100,8 +108,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-//                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
                             showSnackbar("Authentication failed.");
 
                             // updateUI(null);

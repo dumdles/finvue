@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWebException;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +34,7 @@ public class ProfilePage extends AppCompatActivity {
     private TextView displayNameTextView;
     private TextView emailTextView;
     private TextView joinDateTextView;
+    private ImageView profileImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class ProfilePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+        profileImageView = findViewById(R.id.profile_image);
         displayNameTextView = findViewById(R.id.display_name);
         emailTextView = findViewById(R.id.user_email);
         joinDateTextView = findViewById(R.id.join_date);
@@ -105,6 +109,7 @@ public class ProfilePage extends AppCompatActivity {
                 String displayName = task.getResult().getString("name");
                 String email = task.getResult().getString("email");
                 String joinDate = task.getResult().getString("joinDate");
+                String profileImageUrl = task.getResult().getString("profile_image_url"); // Retrieve the profile image URL
 
                 displayNameTextView.setText(displayName);
                 emailTextView.setText(email);
@@ -120,6 +125,15 @@ public class ProfilePage extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+                }
+
+                // Load the profile image into the ImageView using Glide or Picasso library
+                if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                    Glide.with(ProfilePage.this)
+                            .load(profileImageUrl)
+                            .placeholder(R.drawable.sample_pic) // Placeholder image while loading
+                            .error(R.drawable.baseline_image_not_supported) // Error image if loading fails
+                            .into(profileImageView);
                 }
             }
         });

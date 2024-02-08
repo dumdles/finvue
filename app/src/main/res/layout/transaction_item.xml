@@ -81,6 +81,7 @@
             android:id="@+id/transactionAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:fontFamily="@font/space_grotesk_bold"
             android:layout_marginHorizontal="15dp"
             android:text="-$3.50"
