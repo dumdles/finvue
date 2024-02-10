@@ -269,9 +269,9 @@ public class HomepageFragment extends Fragment {
                                         double goal = data.getJSONObject(0).getDouble("goal");
                                         double remaining = goal - totalCost;
                                         if (remaining > 0) {
-                                            amtLeftWk.setText("$" + remaining + " left until spending limit!");
+                                            amtLeftWk.setText("$" + String.format("%.2f", remaining) + " left until spending limit!");
                                         } else if (remaining < 0) {
-                                            amtLeftWk.setText("You have exceeded your spending limit by $" + Math.abs(remaining) + "!");
+                                            amtLeftWk.setText("You have exceeded your spending limit by $" + String.format("%.2f", Math.abs(remaining)) + "!");
                                         } else {
                                             amtLeftWk.setText("You have reached your spending limit!");
                                         }

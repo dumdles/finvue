@@ -19,12 +19,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Pie;
+import com.anychart.enums.Align;
+import com.anychart.enums.LegendLayout;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.collection.LLRBNode;
@@ -64,6 +73,8 @@ public class StatisticsFragment extends Fragment {
     BarChart barChart;
     private boolean totalCostReceived = false;
     private boolean goalReceived = false;
+    AnyChartView anyChartView;
+    String[] categories= {"Food", "Transportation", "Entertainment", "Shopping", "Transfer", "Groceries", "Others"};
 
     double groceryAmt = 0;
     double transportAmt = 0;
@@ -129,9 +140,32 @@ public class StatisticsFragment extends Fragment {
         statsother = view.findViewById(R.id.stats_others);
 
         barChart = view.findViewById(R.id.stacked_barchart);
+        anyChartView = view.findViewById(R.id.piechart);
 
+        MaterialButtonToggleGroup toggleGroup = view.findViewById(R.id.remainingcategoryGroup);
+        MaterialButton remainingButton = view.findViewById(R.id.remainingTab);
+        MaterialButton categoryButton = view.findViewById(R.id.categoryTab);
+        LinearLayout remainingLayout = view.findViewById(R.id.bar_container);
+        LinearLayout categoryLayout = view.findViewById(R.id.piechart_container);
+
+        remainingButton.setChecked(true);
+        remainingLayout.setVisibility(View.VISIBLE);
+        categoryLayout.setVisibility(View.GONE);
+
+        toggleGroup.addOnButtonCheckedListener(((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                if (checkedId == R.id.remainingTab) {
+                    remainingLayout.setVisibility(View.VISIBLE);
+                    categoryLayout.setVisibility(View.GONE);
+                } else if (checkedId == R.id.categoryTab) {
+                    remainingLayout.setVisibility(View.GONE);
+                    categoryLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        }));
 
         fetchUserData();
+
         return view;
     }
     public interface StatisticsCallback {
@@ -229,6 +263,8 @@ public class StatisticsFragment extends Fragment {
                                     statstransfer.setText("$ " + String.format("%.2f", transferAmt));
                                     statsgroceries.setText("$ " + String.format("%.2f", groceryAmt));
                                     statsother.setText("$ " + String.format("%.2f", otherAmt));
+
+                                    setupPieChart(foodAmt, transportAmt, entertainmentAmt, shoppingAmt, transferAmt, groceryAmt, otherAmt);
                                 }
                                 if (querycount < count) {
                                     querycount = count;
@@ -361,6 +397,25 @@ public class StatisticsFragment extends Fragment {
 
         // Refresh the chart
         barChart.invalidate();
+    }
+
+    private void setupPieChart(double food, double transport, double entertainment, double shopping, double transfer, double grocery, double other) {
+        double[] costs= {food, transport, entertainment, shopping, transfer, grocery, other};
+        Pie pie = AnyChart.pie();
+        List<DataEntry> dataEntries = new ArrayList<>();
+
+        for(int i = 0; i<categories.length; i++) {
+            dataEntries.add(new ValueDataEntry(categories[i], costs[i]));
+        }
+        pie.data(dataEntries);
+
+        pie.legend().enabled(true)
+                .position("right")
+                .itemsLayout(LegendLayout.VERTICAL)
+                .align(Align.TOP)
+                .margin(10);
+
+        anyChartView.setChart(pie);
     }
 
 
