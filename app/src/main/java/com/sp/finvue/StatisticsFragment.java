@@ -1,5 +1,6 @@
 package com.sp.finvue;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,11 +20,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -54,8 +58,12 @@ public class StatisticsFragment extends Fragment {
 
     double totalCost = 0.0;
     double goalAmt = 0.0;
+    double ttlc = 0.0;
+    double goalamt = 0.0;
     int querycount = 0;
     BarChart barChart;
+    private boolean totalCostReceived = false;
+    private boolean goalReceived = false;
 
     double groceryAmt = 0;
     double transportAmt = 0;
@@ -122,11 +130,16 @@ public class StatisticsFragment extends Fragment {
 
         barChart = view.findViewById(R.id.stacked_barchart);
 
-        barChart.setRotation(90);
-        barChart.setFitBars(true);
+
         fetchUserData();
         return view;
     }
+    public interface StatisticsCallback {
+        void onTotalCostReceived(double totalCost);
+        void onGoalReceived(double goal);
+    }
+
+
 
     private void fetchUserData() {
         DocumentReference documentReference = fStore.collection("users").document(fbuserID);
@@ -134,14 +147,32 @@ public class StatisticsFragment extends Fragment {
             if (task.isSuccessful()) {
                 fbuserUUID = task.getResult().getString("useruuid");
             }
-            getAllStatistics(fbuserUUID);
+            getAllStatistics(fbuserUUID, new StatisticsCallback() {
+                @Override
+                public void onTotalCostReceived(double totalCost) {
+                    ttlc = totalCost;
+                    totalCostReceived = true;
+                    if (totalCostReceived && goalReceived) {
+                        setBarChart(ttlc, goalamt);
+                    }
+                }
 
+                @Override
+                public void onGoalReceived(double goal) {
+                    goalamt = goal;
+                    goalReceived = true;
+                    if (totalCostReceived && goalReceived) {
+                        setBarChart(ttlc, goalamt);
+                    }
+                }
+            });
 
+            setBarChart(ttlc, goalamt);
         });
         
     }
 
-    private void getAllStatistics(String user_uuid) {
+    private void getAllStatistics(String user_uuid, StatisticsCallback callback) {
         String useruuidurl = TransactionVolleyHelper.transaction_url + user_uuid;
         RequestQueue queue1 = Volley.newRequestQueue(getContext());
         String usertableurl = TransactionVolleyHelper.user_url + user_uuid;
@@ -225,7 +256,7 @@ public class StatisticsFragment extends Fragment {
                                             double cost = transactionCM.getDouble("cost"); // Extract the cost field from the current transaction
                                             totalCost += cost;
                                         }
-                                        setBarChartData(totalCost);
+                                        callback.onTotalCostReceived(totalCost);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -251,7 +282,6 @@ public class StatisticsFragment extends Fragment {
                 return super.parseNetworkResponse(response);
             }
         };
-
         JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest(Request.Method.GET, usertableurl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -264,7 +294,8 @@ public class StatisticsFragment extends Fragment {
                                     JSONArray data = response.getJSONArray("data");
                                     goalAmt = data.getJSONObject(0).getDouble("goal");
                                 }
-                                setBarChartData(goalAmt);
+                                //setBarChartGoal(goalAmt);
+                                callback.onGoalReceived(goalAmt);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -291,14 +322,46 @@ public class StatisticsFragment extends Fragment {
         };
         queue1.add(jsonObjectRequest1);
         queue2.add(jsonObjectRequest2);
+    }
 
-    }
-    private void setBarChartData(double barAmt) {
-        Log.d("total", String.valueOf(barAmt));
+
+
+    private void setBarChart(double cost, double goal) {
+        Log.d("costgoal", cost + "+" + goal);
+        double remaining = goal - cost;
         ArrayList<BarEntry> barValue = new ArrayList<>();
-        barValue.add(new BarEntry(0, new float[]{}));
+        barValue.add(new BarEntry(0, new float[]{(float) cost, (float) remaining}));
         BarDataSet barDataSet = new BarDataSet(barValue, "");
+        barDataSet.setColors(new int[] {Color.parseColor("#FF727DE2"), Color.parseColor("#80727DE2")});
+
+
+        barDataSet.setValueTextSize(12f);
         BarData barData = new BarData(barDataSet);
+
         barChart.setData(barData);
+        barChart.setFitBars(true);
+        barChart.getDescription().setEnabled(false);
+        barChart.getXAxis().setEnabled(false);
+        barChart.getAxisLeft().setAxisMinimum(0f);
+        barChart.getAxisRight().setEnabled(false);
+
+
+        LegendEntry[] legendEntries = new LegendEntry[]{
+                new LegendEntry("Spent", Legend.LegendForm.SQUARE, 10f, 2f, null, Color.parseColor("#FF727DE2")),
+                new LegendEntry("Remaining", Legend.LegendForm.SQUARE, 10f, 2f, null, Color.parseColor("#80727DE2"))
+        };
+        Legend legend = barChart.getLegend();
+        legend.setCustom(legendEntries);
+        legend.setForm(Legend.LegendForm.SQUARE);
+        legend.setTextSize(12f);
+        legend.setTextColor(Color.BLACK);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+
+        // Refresh the chart
+        barChart.invalidate();
     }
+
+
 }
