@@ -30,11 +30,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001; // Request code for Google Sign In
     private FirebaseAuth mAuth;
+
+    private EditText editTextEmail, editTextPassword;
+
+    private static final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                    "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         TextView textViewSignup = findViewById(R.id.textViewSignup);
-        EditText editTextEmail = findViewById(R.id.editTextLoginEmail);
-        EditText editTextPassword = findViewById(R.id.editTextLoginPassword);
+        editTextEmail = findViewById(R.id.editTextLoginEmail);
+        editTextPassword = findViewById(R.id.editTextLoginPassword);
         Button btnLogin = findViewById(R.id.btnLogin);
         LinearLayout btnGoogleSignIn = findViewById(R.id.btnSignInWithGoogle);
 
@@ -80,15 +91,28 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public static boolean isValidEmail(String email) {
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     // Implement the signInWithEmailAndPassword method
     private void signInWithEmailAndPassword(String email, String password) {
         // Check if email and password fields are empty
         if (email.isEmpty()) {
-            showSnackbar("Please enter your email!");
+            editTextEmail.setError("Please enter your email!");
+//            showSnackbar("Please enter your email!");
+            editTextEmail.requestFocus();
+            return;
+        } else if (!isValidEmail(email)) {
+            editTextEmail.setError("Please enter valid email!");
+            editTextEmail.requestFocus();
             return;
         }
         if (password.isEmpty()) {
-            showSnackbar("Please enter your password");
+            editTextPassword.setError("Please enter your password");
+            editTextPassword.requestFocus();
+//            showSnackbar("Please enter your password");
             return;
         }
 
